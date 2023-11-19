@@ -1,0 +1,4 @@
+name: OfroLib
+version: '${version}'
+main: github.rainbowmori.ofrolib.OfroLib
+api-version: '1.20'
