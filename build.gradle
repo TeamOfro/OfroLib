@@ -1,7 +1,6 @@
-plugins {
-    id 'java'
-    id 'maven-publish'
-}
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'java-library'
 
 group = 'github.teamofro'
 version = '1.0.0'
@@ -19,18 +18,18 @@ repositories {
 
     maven { url = 'https://jitpack.io' }
     maven { url = 'https://repo.onarandombox.com/content/groups/public/' }
-    maven { url "https://repo.minebench.de/" }
+    maven { url = 'https://repo.minebench.de/' }
 }
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT'
 
-    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    api 'com.github.MilkBowl:VaultAPI:1.7'
 
-    compileOnly 'com.onarandombox.multiversecore:multiverse-core:4.3.9'
-    compileOnly 'com.onarandombox.multiverseinventories:multiverse-inventories:4.2.5'
-    compileOnly 'com.onarandombox.multiverseportals:multiverse-portals:4.2.2'
-    compileOnly 'com.onarandombox.multiversenetherportals:Multiverse-NetherPortals:4.2.1'
+    api 'com.onarandombox.multiversecore:multiverse-core:4.3.9'
+    api 'com.onarandombox.multiverseinventories:multiverse-inventories:4.2.5'
+    api 'com.onarandombox.multiverseportals:multiverse-portals:4.2.2'
+    api 'com.onarandombox.multiversenetherportals:Multiverse-NetherPortals:4.2.1'
 }
 
 def targetJavaVersion = 17
@@ -50,8 +49,16 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 jar {
-    archivesBaseName='OfroLib'
-    project.version=''
+    archiveFileName = project.name+'.jar'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveFileName = project.name + '-sources.jar'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
 }
 
 processResources {
@@ -65,8 +72,14 @@ processResources {
 
 publishing {
     publications {
-        release(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
+            version = project.version
+            groupId = project.group
+            artifactId = project.name
+            artifact sourcesJar {
+                archiveClassifier = 'sources'
+            }
         }
     }
 }
