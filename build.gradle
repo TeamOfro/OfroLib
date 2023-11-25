@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'github.rainbowmori'
+group = 'github.teamofro'
 version = '1.0.0'
 
 repositories {
