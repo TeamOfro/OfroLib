@@ -1,4 +1,11 @@
-name: OfroLib
-version: '${version}'
+name : OfroLib
 main: github.teamofro.ofrolib.OfroLib
-api-version: '1.20'
+version : '${version}'
+api-version: 1.20
+prefix : OfroLib
+load : POSTWORLD
+authors:
+  - rainbowmori
+description: お風呂鯖のプラグイン
+depend : [Multiverse-Core,Vault]
+loadBefore : [Multiverse-Portals,Multiverse-Inventories,MultiverseNetherPortals]

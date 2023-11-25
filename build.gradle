@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'github.teamofro'
@@ -8,17 +9,28 @@ version = '1.0.0'
 repositories {
     mavenCentral()
     maven {
-        name = "papermc-repo"
-        url = "https://repo.papermc.io/repository/maven-public/"
+        name = 'papermc-repo'
+        url = 'https://repo.papermc.io/repository/maven-public/'
     }
     maven {
-        name = "sonatype"
-        url = "https://oss.sonatype.org/content/groups/public/"
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
     }
+
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://repo.onarandombox.com/content/groups/public/' }
+    maven { url "https://repo.minebench.de/" }
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT"
+    compileOnly 'io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT'
+
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+
+    compileOnly 'com.onarandombox.multiversecore:multiverse-core:4.3.9'
+    compileOnly 'com.onarandombox.multiverseinventories:multiverse-inventories:4.2.5'
+    compileOnly 'com.onarandombox.multiverseportals:multiverse-portals:4.2.2'
+    compileOnly 'com.onarandombox.multiversenetherportals:Multiverse-NetherPortals:4.2.1'
 }
 
 def targetJavaVersion = 17
@@ -37,11 +49,24 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+jar {
+    archivesBaseName='OfroLib'
+    project.version=''
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
         expand props
+    }
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            from components.java
+        }
     }
 }
