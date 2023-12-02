@@ -4,6 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import github.teamofro.ofrolib.OfroLib;
+
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -122,12 +124,7 @@ public class JsonAPI extends FileAPI<JsonObject> {
   @Override
   public void loadData() {
     try {
-      FileReader fileReader = new FileReader(file);
-      if (FileUtils.fileRead(file).trim().isEmpty()) {
-        OfroLib.gson.toJson("{}", new FileWriter(file));
-      } else {
-        data = OfroLib.gson.fromJson(new JsonReader(fileReader), JsonObject.class);
-      }
+      data = OfroLib.gson.fromJson(new BufferedReader(new FileReader(file)), JsonObject.class);
     } catch (IOException ignored) {
     } finally {
       if (data == null) {
