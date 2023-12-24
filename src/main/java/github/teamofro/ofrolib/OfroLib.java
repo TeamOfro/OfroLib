@@ -28,8 +28,8 @@ public final class OfroLib extends JavaPlugin {
             .registerTypeAdapter(Location.class, new LocationSerializer())
             .create();
 
-    public final PrefixUtil prefixUtil;
-    public final String prefix = "<gray>[<aqua>Ofro<gray>]";
+    public static final String prefix = "<gray>[<aqua>Ofro<gray>]";
+    public static final PrefixUtil prefixUtil = new PrefixUtil(prefix);
 
     private static MultiverseNetherPortals netherPortals;
     private static MultiverseInventories inventories;
@@ -64,11 +64,6 @@ public final class OfroLib extends JavaPlugin {
 
     public static OfroLib getPlugin() {
         return getPlugin(OfroLib.class);
-    }
-
-    public OfroLib() {
-        super();
-        prefixUtil = new PrefixUtil(prefix);
     }
 
     @Override
